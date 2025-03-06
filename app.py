@@ -1,9 +1,6 @@
 import streamlit as st
+from app_ui import main  # Import the main function from app_ui.py
 
-def main():
-    # Your Streamlit app code goes here
-    st.title("My Streamlit App")
-    # Add more Streamlit code...
-
+# Make sure to call the main function from app_ui.py
 if __name__ == "__main__":
-    main()
+    main()  # This will run the Streamlit UI defined in app_ui.py
