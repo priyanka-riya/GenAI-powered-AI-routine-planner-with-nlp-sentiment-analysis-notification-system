@@ -1,10 +1,11 @@
 streamlit
-torch
 transformers
-googletrans==4.0.0-rc1
+torch
+speechrecognition
 vaderSentiment
+googletrans==4.0.0-rc1
 pydub
-SpeechRecognition
-email
-pickle-mixin
+
+
+
 
