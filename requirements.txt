@@ -1,11 +1,15 @@
 streamlit
-transformers
+pygame
 torch
+torchvision
+torchaudio
 speechrecognition
+pydub
+transformers
+textblob
 vaderSentiment
 googletrans==4.0.0-rc1
-pydub
-textblob
+
 
 
 
