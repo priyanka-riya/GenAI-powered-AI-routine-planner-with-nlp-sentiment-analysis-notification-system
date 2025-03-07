@@ -11,6 +11,10 @@ from transformers import GPT2Tokenizer, GPT2LMHeadModel
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from googletrans import Translator
 
+# Initialize global utilities
+translator = Translator()
+analyzer = SentimentIntensityAnalyzer()
+
 # Clear CUDA cache if available
 if torch.cuda.is_available():
     torch.cuda.empty_cache()
@@ -41,6 +45,7 @@ def analyze_sentiment(task):
 
 # GPT-2 Task Priority Prediction
 def get_priority(task):
+    model, tokenizer, device = load_model()
     input_text = f"Task: {task}. Prioritize this task as High, Medium, or Low."
     inputs = tokenizer.encode(input_text, return_tensors="pt").to(device)
     
@@ -71,12 +76,14 @@ def recognize_speech():
     mic = sr.Microphone()
     st.write("🎤 Speak tasks one by one. Say 'next' to move, 'stop' to finish.")
     task_list = []
+    
     with mic as source:
         recognizer.adjust_for_ambient_noise(source)
         while True:
             try:
                 audio = recognizer.listen(source)
                 text = recognizer.recognize_google(audio)
+                
                 if text.lower() == "stop":
                     break
                 elif text.lower() == "next":
@@ -88,19 +95,16 @@ def recognize_speech():
                     updated_priority = update_priorities_based_on_sentiment(priority, sentiment)
                     task_list.append(f"{translated_task} (Priority: {updated_priority}, Sentiment: {sentiment})")
                     st.write(f"📝 Task Added: {translated_task} (Priority: {updated_priority}, Sentiment: {sentiment})")
+            
             except sr.UnknownValueError:
                 st.write("⚠️ Could not understand. Try again.")
             except sr.RequestError:
                 st.write("🚨 Speech Recognition API unavailable.")
+    
     return task_list
 
 # Main function
 def main():
-    # Load resources
-    model, tokenizer, device = load_model()
-    translator = Translator()
-    analyzer = SentimentIntensityAnalyzer()
-
     # Load tasks
     tasks = load_tasks()
 
@@ -146,7 +150,10 @@ def main():
     # Sentiment Check
     if st.button("🔍 Check Sentiment"):
         if any("Negative" in task for task in tasks):
-            st.write("💬 No worries, let me schedule it perfectly. Take a deep breath!  Melody - https://www.youtube.com/watch?v=9roOWg7C6Zg,Folk - https://www.youtube.com/watch?v=JOSsS6m5mYk,Love-https://www.youtube.com/watch?v=example_link  😊 ")
+            st.write("💬 No worries, let me schedule it perfectly. Take a deep breath! 😊")
+            st.write("🎶 Melody - [Listen Here](https://www.youtube.com/watch?v=9roOWg7C6Zg)")
+            st.write("🎶 Folk - [Listen Here](https://www.youtube.com/watch?v=JOSsS6m5mYk)")
+            st.write("🎶 Love - [Listen Here](https://www.youtube.com/watch?v=example_link)")
 
     # Calendar Sync
     if st.button("📅 Sync with Calendar"):
