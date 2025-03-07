@@ -7,11 +7,8 @@ speechrecognition
 pydub
 transformers
 textblob
-vadersentiment  # Fixed casing
+vadersentiment
 googletrans==4.0.0-rc1
 python-dotenv
 google-api-python-client
 pyaudio
-portaudio
-ffmpeg
-
