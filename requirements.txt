@@ -11,6 +11,7 @@ vaderSentiment
 googletrans==4.0.0-rc1
 python-dotenv
 google-api-python-client
+pickle5
 
 
 
